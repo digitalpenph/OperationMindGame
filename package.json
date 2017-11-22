@@ -1,0 +1,15 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "private": true,
+  "dependencies": {
+    "expo": "^23.0.0",
+    "react": "16.0.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
+    "react-native-animatable": "^1.2.4",
+    "react-native-elements": "^0.18.2"
+  },
+  "name": "OperationMindGame",
+  "version": "0.0.0",
+  "description": "An interactive math operations game. Test your skills with Operation Mind Game!",
+  "author": "Tristan Jake Alcantara"
+}
