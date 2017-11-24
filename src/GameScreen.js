@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
-import { Constants } from 'expo';
+import { Constants, Font } from 'expo';
 import * as Animatable from 'react-native-animatable'; // 1.2.4
 import { Ionicons } from "@expo/vector-icons"; // 5.2.0
+
+import Assets from "./Assets";
 
 export default class App extends Component {
   static navigationOptions = {
@@ -17,11 +19,16 @@ export default class App extends Component {
       operation: ['+', '-', '*'],
       score: 0,
       status: true,
-      remainingSeconds : 3 * 60,
+      remainingSeconds : 1 * 60,
       interval : null,
       choices: [0, 0],
       feedback: "TIME'S UP"
     };
+  }
+  async componentDidMount() {
+    await Font.loadAsync({
+      'toyzarux': require('../assets/TOYZARUX.ttf'),
+    });
   }
   componentWillMount(){
     this.fetchData();
@@ -134,7 +141,7 @@ export default class App extends Component {
     this.setState({
       score: 0,
       status: true,
-      remainingSeconds : 3 * 60,
+      remainingSeconds : 1 * 60,
       interval : null,
       feedback: "TIME'S UP"
     });
@@ -157,86 +164,92 @@ export default class App extends Component {
   renderItem({ item, index }) {
     if(index == this.state.position[0] || index == this.state.position[1]) {
       let number = item.value;
-      return <TouchableOpacity>
-        <Animatable.View animation="bounceIn" duration={3000} style={styles.tiles}>
-          <Text style={styles.tilesText}>{number}</Text>
-        </Animatable.View>
-      </TouchableOpacity>
+      return <Animatable.View animation="bounceIn" duration={3000} style={styles.tiles}>
+        <Text style={styles.tilesText}>{number}</Text>
+      </Animatable.View>
     } else if(index == this.state.position[2]) {
       let operator = this.state.operation[0];
-      return <TouchableOpacity>
-        <Animatable.View animation="bounceIn" duration={3000} style={styles.tiles}>
-          <Text style={styles.tilesText}>{operator}</Text>
-        </Animatable.View>
-      </TouchableOpacity>
+      return <Animatable.View animation="bounceIn" duration={3000} style={styles.tiles}>
+        <Text style={styles.tilesText}>{operator}</Text>
+      </Animatable.View>
     } else {
-      return <View animation="bounceIn" duration={1000} style={styles.tilesHidden} />
+      return <View style={styles.tilesHidden} />
     }
   }
   render () {
-    if(this.formatRemainingSeconds(this.state.remainingSeconds) == '00:00' || !this.state.status) {
-      return (
-        <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.score}>{this.state.feedback}</Text>
-          <Text style={styles.score}>Score: {this.state.score}</Text>
-        </View>
-        <View style={styles.nav}>
-          <TouchableOpacity onPress={()=>this.retry()} style={{padding: 10}}>
-            <Animatable.View animation="pulse" iterationCount="infinite" easing="ease-out" duration={1000} style={styles.button}>
-              <Ionicons style={styles.buttonText}  name="md-refresh" size={50} color="#26A65B"></Ionicons>
-            </Animatable.View>
-          </TouchableOpacity>
-          <TouchableOpacity style={{padding: 10}}>
-            <Animatable.View animation="bounceIn" style={styles.button}>
-              <Ionicons style={styles.buttonText}  name="md-podium" size={50} color="#F9690E"></Ionicons>
-            </Animatable.View>
-          </TouchableOpacity>
-        </View>
-      </View>  
-      );
-    }
-    if(this.state.status) {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.score}>Score: {this.state.score}</Text>
-          <FlatList
-            contentContainerStyle={styles.list}
-            onRefresh={() => this.onRefresh()}
-            refreshing={this.state.isFetching}
-            data={this.state.data}
-            numColumns={3}
-            renderItem={this.renderItem.bind(this)}
-          />
-          <View style={styles.nav}>
-            <TouchableOpacity onPress={()=>this.checkAnswer(this.state.choices[0])} style={{padding: 10}}>
-              <Animatable.View animation="bounceIn" style={styles.button}>
-                <Text style={styles.buttonText}>{this.state.choices[0]}</Text>
-              </Animatable.View>
-            </TouchableOpacity>
-            <Animatable.View animation="pulse" iterationCount="infinite" easing="ease-out" duration={1000} style={{padding: 10, justifyContent: 'center'}}>
-              <Text style={styles.time}>{this.formatRemainingSeconds(this.state.remainingSeconds)}</Text>
-            </Animatable.View>
-            <TouchableOpacity onPress={()=>this.checkAnswer(this.state.choices[1])} style={{padding: 10}}>
-              <Animatable.View animation="bounceIn" style={styles.button}>
-                <Text style={styles.buttonText}>{this.state.choices[1]}</Text>
-              </Animatable.View>
-            </TouchableOpacity>
+      if(this.formatRemainingSeconds(this.state.remainingSeconds) == '00:00' || !this.state.status) {
+        return ( 
+          <View style={styles.container}>
+            <View style={styles.header}>
+              <Text style={styles.feedback}>{this.state.feedback}</Text>
+              <Text style={styles.score}>Score: {this.state.score}</Text>
+            </View>
+            <View style={styles.nav}>
+              <TouchableOpacity onPress={()=>this.retry()} style={{padding: 10}}>
+                <Animatable.View animation="pulse" iterationCount="infinite" easing="ease-out" duration={1000} style={styles.button}>
+                  <Ionicons style={styles.buttonText}  name="md-refresh" size={50} color="#26A65B"></Ionicons>
+                </Animatable.View>
+              </TouchableOpacity>
+              <TouchableOpacity style={{padding: 10}}>
+                <Animatable.View animation="bounceIn" style={styles.button}>
+                  <Ionicons style={styles.buttonText}  name="md-podium" size={50} color="#F9690E"></Ionicons>
+                </Animatable.View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      );
-    }
+        ); 
+      }
+      if(this.state.status) {
+        return (
+          <View style={styles.container}>
+            <Text style={styles.score}>Score: {this.state.score}</Text>
+            <FlatList
+              contentContainerStyle={styles.list}
+              onRefresh={() => this.onRefresh()}
+              refreshing={this.state.isFetching}
+              data={this.state.data}
+              numColumns={3}
+              renderItem={this.renderItem.bind(this)}
+            />
+            <View style={styles.nav}>
+              <TouchableOpacity onPress={()=>this.checkAnswer(this.state.choices[0])} style={{padding: 10}}>
+                <Animatable.View animation="bounceIn" style={styles.button}>
+                  <Text style={styles.buttonText}>{this.state.choices[0]}</Text>
+                </Animatable.View>
+              </TouchableOpacity>
+              <Animatable.View animation="pulse" iterationCount="infinite" easing="ease-out" duration={1000} style={{padding: 10, justifyContent: 'center'}}>
+                <Text style={styles.time}>{this.formatRemainingSeconds(this.state.remainingSeconds)}</Text>
+              </Animatable.View>
+              <TouchableOpacity onPress={()=>this.checkAnswer(this.state.choices[1])} style={{padding: 10}}>
+                <Animatable.View animation="bounceIn" style={styles.button}>
+                  <Text style={styles.buttonText}>{this.state.choices[1]}</Text>
+                </Animatable.View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        );
+      }
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-     paddingTop: Constants.statusBarHeight
+    flex: 1,
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#F2F1EF',
+    justifyContent: 'center'
+  },
+  feedback: {
+    fontSize: 30,
+    textAlign: 'center',
+    color: 'black',
+    fontFamily: 'toyzarux'
   },
   score: {
-    fontWeight: 'bold',
     fontSize: 40,
     textAlign: 'center',
+    color: 'black',
+    fontFamily: 'toyzarux'
   },
   list: {
     flex: 1,
@@ -248,7 +261,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
   tiles: {
     borderRadius: 10,
@@ -263,7 +276,7 @@ const styles = StyleSheet.create({
     margin: 5,
     width: 80,
     height: 80,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F2F1EF',
     justifyContent: 'center',
   },
   nav: {
@@ -286,9 +299,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   time: {
-    fontWeight: 'bold',
-    fontSize: 25,
+    fontSize: 18,
     textAlign: 'center',
+    color: 'black',
+    fontFamily: 'toyzarux'
   }
 });
 

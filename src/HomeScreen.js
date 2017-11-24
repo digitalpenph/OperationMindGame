@@ -28,7 +28,7 @@ export default class App extends Component {
       console.log(e.message);
     } finally {
       await Font.loadAsync({
-        'brain-fish-rush': require('../assets/brainfishrush.ttf'),
+        'toyzarux': require('../assets/TOYZARUX.ttf'),
       });
       const sound = new Audio.Sound();
       await sound.loadAsync(require('../assets/bgm.mp3'));
@@ -43,9 +43,10 @@ export default class App extends Component {
       (
         <View style={styles.container}>
           <View style={styles.header}>
-            <Animatable.Text animation="pulse" iterationCount="infinite" easing="ease-out" duration={590} style={styles.title}>OPERATION MIND GAME</Animatable.Text>
+            <Animatable.Text animation="pulse" iterationCount="infinite" easing="ease-out" duration={490} style={styles.title}>OPERATION MIND GAME</Animatable.Text>
           </View>
           <View style={styles.nav}>
+            <View style={styles.section}>
             <TouchableOpacity onPress={() => navigate('Game')} style={{padding: 10}}>
               <Animatable.View animation="pulse" iterationCount="infinite" easing="ease-out" duration={1000} style={styles.button}>
                 <Ionicons style={styles.buttonText}  name="md-arrow-dropright" size={50} color="#26A65B"></Ionicons>
@@ -56,6 +57,7 @@ export default class App extends Component {
                 <Ionicons style={styles.buttonText}  name="md-podium" size={50} color="#F9690E"></Ionicons>
               </Animatable.View>
             </TouchableOpacity>
+            </View>
           </View>
           <View>
             <Text style={styles.copyright}>Some rights reserved. Developed by traci12.</Text>
@@ -70,13 +72,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#DC3023'
+    backgroundColor: '#F2F1EF'
   },
   title: {
-    fontSize: 70,
+    fontSize: 35,
     textAlign: 'center',
-    color: 'white',
-    fontFamily: 'brain-fish-rush'
+    color: 'black',
+    fontFamily: 'toyzarux'
   },
   header: {
     flex: 1,
@@ -86,6 +88,8 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     paddingRight: 40,
     flex: 1,
+  },
+  section: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -103,6 +107,6 @@ const styles = StyleSheet.create({
   copyright: {
     paddingBottom: 10,
     textAlign: 'center',
-    color: 'white',
+    color: 'black',
   }
 });
