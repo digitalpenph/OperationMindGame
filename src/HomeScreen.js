@@ -52,7 +52,7 @@ export default class App extends Component {
                 <Ionicons style={styles.buttonText}  name="md-arrow-dropright" size={50} color="#26A65B"></Ionicons>
               </Animatable.View>
             </TouchableOpacity>
-            <TouchableOpacity style={{padding: 10}}>
+            <TouchableOpacity onPress={() => navigate('Score')} style={{padding: 10}}>
               <Animatable.View animation="bounceIn" style={styles.button}>
                 <Ionicons style={styles.buttonText}  name="md-podium" size={50} color="#F9690E"></Ionicons>
               </Animatable.View>
