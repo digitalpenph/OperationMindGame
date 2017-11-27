@@ -20,10 +20,12 @@ export default class App extends Component {
       operation: ['+', '-', '*'],
       score: 0,
       status: true,
-      remainingSeconds : 1 * 60,
+      remainingSeconds : 10,
       interval : null,
       choices: [0, 0],
-      feedback: "TIME'S UP"
+      feedback: "TIME'S UP!",
+      num: 11,
+      bunosTime: 2
     };
   }
   async componentDidMount() {
@@ -89,7 +91,7 @@ export default class App extends Component {
     return array;
   }
   generateRandomNumber=()=> {
-    return Math.floor(Math.random() * 11);
+    return Math.floor(Math.random() * this.state.num);
   }
   makeChoices() {
     let total = eval(this.state.data[this.state.position[0]].value + this.state.operation[0] + this.state.data[this.state.position[1]].value);
@@ -115,6 +117,12 @@ export default class App extends Component {
     });
   }
   formatRemainingSeconds(remainingSeconds) {
+    if(remainingSeconds == 0) {
+      this.updateUserScore();
+      this.setState({
+        status: false,
+      });
+    }
     let numMinutes = Math.floor(remainingSeconds / 60);
     let numSeconds = remainingSeconds % 60;
     let formattedTime = "";
@@ -142,9 +150,11 @@ export default class App extends Component {
     this.setState({
       score: 0,
       status: true,
-      remainingSeconds : 1 * 60,
+      remainingSeconds : 10,
       interval : null,
-      feedback: "TIME'S UP"
+      feedback: "TIME'S UP!",
+      num: 11,
+      bunosTime: 2
     });
   }
   updateUserScore(){
@@ -160,10 +170,62 @@ export default class App extends Component {
   }
   checkAnswer(answer) {
     let score = this.state.score;
+    switch(score) {
+      case 10:
+        this.setState({
+          num: 20,
+        });
+        break;
+      case 20:
+        this.setState({
+          num: 30,
+          bunosTime: 3
+        });
+        break;
+      case 30:
+        this.setState({
+          num: 40,
+        });
+        break;
+      case 40:
+        this.setState({
+          num: 50,
+          bunosTime: 4
+        });
+        break;
+      case 50:
+        this.setState({
+          num: 60,
+        });
+        break;
+      case 60:
+        this.setState({
+          num: 70,
+          bunosTime: 5
+        });
+        break;
+      case 70:
+        this.setState({
+          num: 80,
+        });
+        break;
+      case 80:
+        this.setState({
+          num: 90,
+          bunosTime: 6
+        });
+        break;
+      case 90:
+        this.setState({
+          num: 99,
+        });
+        break;
+    }
     let total = eval(this.state.data[this.state.position[0]].value + this.state.operation[0] + this.state.data[this.state.position[1]].value);
     if(total == answer) {
       this.setState({
-        score: score += 1
+        score: score += 1,
+        remainingSeconds: this.state.remainingSeconds += this.state.bunosTime
       });
       this.fetchData();
     } else {
@@ -190,7 +252,7 @@ export default class App extends Component {
     }
   }
   render () {
-    if(this.formatRemainingSeconds(this.state.remainingSeconds) == '00:00' || !this.state.status) {
+    if(!this.state.status) {
       const { navigate } = this.props.navigation;
       return ( 
         <View style={styles.container}>
@@ -231,7 +293,7 @@ export default class App extends Component {
                 <Text style={styles.buttonText}>{this.state.choices[0]}</Text>
               </Animatable.View>
             </TouchableOpacity>
-            <Animatable.View animation="pulse" iterationCount="infinite" easing="ease-out" duration={1000} style={{padding: 10, justifyContent: 'center'}}>
+            <Animatable.View animation="pulse" iterationCount="infinite" easing="ease-out" duration={1000} style={{justifyContent: 'center'}}>
               <Text style={styles.time}>{this.formatRemainingSeconds(this.state.remainingSeconds)}</Text>
             </Animatable.View>
             <TouchableOpacity onPress={()=>this.checkAnswer(this.state.choices[1])} style={{padding: 10}}>
@@ -309,14 +371,15 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: 30,
     textAlign: 'center',
   },
   time: {
-    fontSize: 18,
+    padding: 10,
+    fontSize: 20,
     textAlign: 'center',
     color: 'black',
-    fontFamily: 'toyzarux'
+    fontFamily: 'toyzarux',
   }
 });
 

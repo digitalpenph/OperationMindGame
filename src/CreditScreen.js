@@ -1,52 +1,37 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Font } from 'expo';
 import * as Animatable from 'react-native-animatable'; // 1.2.4
 import { Ionicons } from "@expo/vector-icons"; // 5.2.0
-import { AsyncStorage } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
 export default class App extends Component {
   static navigationOptions = {
     header: null
   };
-  constructor(props) {
-    super(props);
-    this.state = {
-      highscore: ''
-    };
-  }
   async componentDidMount() {
     await Font.loadAsync({
       'toyzarux': require('../assets/TOYZARUX.ttf'),
     });
   }
-  componentWillMount() {
-    this.checkUserScore();
-  }
-  checkUserScore(){
-    AsyncStorage.getItem('score', (err, result) => {
-      if (!err && result != null){
-        this.setState({
-          highscore: result
-        });
-      }
-      else {
-        this.setState({
-          highscore: 0
-        });
-      }
-    });
-  }
-  render () {
+  render() {
     const backAction = NavigationActions.back({
       key: null
     })
-    return ( 
+    return (
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.feedback}>Top Score</Text>
-          <Text style={styles.score}>{this.state.highscore}</Text>
+        <Text style={styles.title}>CREDITS</Text>
+        <View style={styles.nav}>
+          <Text style={styles.subtitle}>Developer</Text>
+          <Text style={styles.paragraph}>Tristan Jake Alcantara</Text>
+        </View>
+        <View style={styles.nav}>
+          <Text style={styles.subtitle}>Music</Text>
+          <Text style={styles.paragraph}>melodyloops.com</Text>
+        </View>
+        <View style={styles.nav}>
+          <Text style={styles.subtitle}>Font</Text>
+          <Text style={styles.paragraph}>dafont.com</Text>
         </View>
         <View style={styles.nav}>
           <TouchableOpacity onPress={() => this.props.navigation.dispatch(backAction)} style={{padding: 10}}>
@@ -56,7 +41,7 @@ export default class App extends Component {
           </TouchableOpacity>
         </View>
       </View>
-    ); 
+    );
   }
 }
 
@@ -64,17 +49,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F2F1EF',
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'center'
   },
-  feedback: {
-    fontSize: 40,
+  title: {
+    padding: 30,
+    fontSize: 30,
     textAlign: 'center',
     color: 'black',
     fontFamily: 'toyzarux'
   },
-  score: {
-    fontSize: 70,
+  subtitle: {
+    fontSize: 25,
+    textAlign: 'center',
+    color: 'black',
+    fontFamily: 'toyzarux'
+  },
+  paragraph: {
+    fontSize: 18,
     textAlign: 'center',
     color: 'black',
     fontFamily: 'toyzarux'
@@ -82,8 +73,8 @@ const styles = StyleSheet.create({
   nav: {
     paddingLeft: 40,
     paddingRight: 40,
-    flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center'
   },
   button: {
     borderRadius: 5,

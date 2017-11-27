@@ -57,6 +57,11 @@ export default class App extends Component {
                 <Ionicons style={styles.buttonText}  name="md-podium" size={50} color="#F9690E"></Ionicons>
               </Animatable.View>
             </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('Credit')} style={{padding: 10}}>
+              <Animatable.View animation="bounceIn" style={styles.button}>
+                <Ionicons style={styles.buttonText}  name="md-person" size={50} color="#000000"></Ionicons>
+              </Animatable.View>
+            </TouchableOpacity>
             </View>
           </View>
           <View>
@@ -85,8 +90,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   nav: {
-    paddingLeft: 40,
-    paddingRight: 40,
     flex: 1,
   },
   section: {
