@@ -3,43 +3,49 @@ import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements'; // 0.16.0
 import { Ionicons } from "@expo/vector-icons"; // 5.2.0
 import * as Animatable from 'react-native-animatable'; // 1.2.4
-import { AppLoading, Audio, Font } from 'expo';
+import { AppLoading, Asset, Audio, Font } from 'expo';
 
 import Assets from "./Assets";
 
 export default class App extends Component {
-  state = { assetsLoaded: false };
+  state = { isLoadingComplete: false };
   static navigationOptions = {
     header: null
   };
-  componentDidMount() {
-    this.loadAssetsAsync();
+  async componentDidMount() {
+    const sound = new Audio.Sound();
+    await sound.loadAsync(require('../assets/bgm.mp3'));
+    await sound.setIsLoopingAsync(true);
+    await sound.playAsync();
+    this.setState({ assetsLoaded: true });
   }
-  loadAssetsAsync = async () => {
-    try {
-      await cacheAssetsAsync({
-        files: arrayFromObject(Assets)
-      });
-    } catch (e) {
-      console.warn(
-        "There was an error caching assets (see: app.js), perhaps due to a " +
-          "network timeout, so we skipped caching. Reload the app to try again."
-      );
-      console.log(e.message);
-    } finally {
-      await Font.loadAsync({
+  _loadResourcesAsync = async () => {
+    return Promise.all([
+      Asset.loadAsync([
+        require('../assets/bgm.mp3'),
+      ]),
+      Font.loadAsync({
         'toyzarux': require('../assets/TOYZARUX.ttf'),
-      });
-      const sound = new Audio.Sound();
-      await sound.loadAsync(require('../assets/bgm.mp3'));
-      await sound.setIsLoopingAsync(true);
-      await sound.playAsync();
-      this.setState({ assetsLoaded: true });
-    }
+      }),
+    ]);
+  };
+
+  _handleLoadingError = error => {
+    // In this case, you might want to report the error to your error
+    // reporting service, for example Sentry
+    console.warn(error);
+  };
+
+  _handleFinishLoading = () => {
+    this.setState({ isLoadingComplete: true });
   };
   render() {
     const { navigate } = this.props.navigation;
-    return !this.state.assetsLoaded ? <AppLoading /> : 
+    return !this.state.isLoadingComplete ? <AppLoading
+          startAsync={this._loadResourcesAsync}
+          onError={this._handleLoadingError}
+          onFinish={this._handleFinishLoading}
+        /> : 
       (
         <View style={styles.container}>
           <View style={styles.header}>

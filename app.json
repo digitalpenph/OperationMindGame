@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "OperationMindGame",
+    "name": "Operation Mind Game",
     "description": "An interactive math operations game. Test your skills with Operation Mind Game!",
     "slug": "OperationMindGame",
     "privacy": "public",
@@ -15,7 +15,10 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.digitalpenph.operationmindgame"
+    },
+    "android": {
+      "package": "com.digitalpenph.operationmindgame"
     }
   }
 }

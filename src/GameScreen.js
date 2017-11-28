@@ -263,12 +263,12 @@ export default class App extends Component {
           <View style={styles.nav}>
             <TouchableOpacity onPress={()=>this.retry()} style={{padding: 10}}>
               <Animatable.View animation="pulse" iterationCount="infinite" easing="ease-out" duration={1000} style={styles.button}>
-                <Ionicons style={styles.buttonText}  name="md-refresh" size={50} color="#26A65B"></Ionicons>
+                <Ionicons style={styles.buttonChoice}  name="md-refresh" size={50} color="#26A65B"></Ionicons>
               </Animatable.View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigate('Score')} style={{padding: 10}}>
               <Animatable.View animation="bounceIn" style={styles.button}>
-                <Ionicons style={styles.buttonText}  name="md-podium" size={50} color="#F9690E"></Ionicons>
+                <Ionicons style={styles.buttonChoice}  name="md-podium" size={50} color="#F9690E"></Ionicons>
               </Animatable.View>
             </TouchableOpacity>
           </View>
@@ -372,6 +372,11 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: 'bold',
     fontSize: 30,
+    textAlign: 'center',
+  },
+  buttonChoice: {
+    fontWeight: 'bold',
+    fontSize: 40,
     textAlign: 'center',
   },
   time: {
