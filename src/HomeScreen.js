@@ -5,8 +5,6 @@ import { Ionicons } from "@expo/vector-icons"; // 5.2.0
 import * as Animatable from 'react-native-animatable'; // 1.2.4
 import { AppLoading, Asset, Audio, Font } from 'expo';
 
-import Assets from "./Assets";
-
 export default class App extends Component {
   state = { isLoadingComplete: false };
   static navigationOptions = {

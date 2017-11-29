@@ -5,8 +5,6 @@ import * as Animatable from 'react-native-animatable'; // 1.2.4
 import { Ionicons } from "@expo/vector-icons"; // 5.2.0
 import { AsyncStorage } from 'react-native';
 
-import Assets from "./Assets";
-
 export default class App extends Component {
   static navigationOptions = {
     header: null
