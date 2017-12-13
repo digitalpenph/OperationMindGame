@@ -23,7 +23,6 @@ export default class App extends Component {
       choices: [0, 0],
       feedback: "TIME'S UP!",
       num: 11,
-      bunosTime: 2
     };
   }
   async componentDidMount() {
@@ -152,7 +151,6 @@ export default class App extends Component {
       interval : null,
       feedback: "TIME'S UP!",
       num: 11,
-      bunosTime: 2
     });
   }
   updateUserScore(){
@@ -177,7 +175,6 @@ export default class App extends Component {
       case 20:
         this.setState({
           num: 30,
-          bunosTime: 3
         });
         break;
       case 30:
@@ -188,7 +185,6 @@ export default class App extends Component {
       case 40:
         this.setState({
           num: 50,
-          bunosTime: 4
         });
         break;
       case 50:
@@ -199,7 +195,6 @@ export default class App extends Component {
       case 60:
         this.setState({
           num: 70,
-          bunosTime: 5
         });
         break;
       case 70:
@@ -210,7 +205,6 @@ export default class App extends Component {
       case 80:
         this.setState({
           num: 90,
-          bunosTime: 6
         });
         break;
       case 90:
@@ -223,7 +217,7 @@ export default class App extends Component {
     if(total == answer) {
       this.setState({
         score: score += 1,
-        remainingSeconds: this.state.remainingSeconds += this.state.bunosTime
+        remainingSeconds: this.state.remainingSeconds += 2
       });
       this.fetchData();
     } else {
